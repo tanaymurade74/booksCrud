@@ -2,12 +2,22 @@ const mongoose = require("mongoose")
 const express = require("express")
 const app = express();
 
+const cors = require("cors");
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+
 const Book = require("./models/books.models");
 const {initializeDatabase} = require("./db/db.connect");
 
 initializeDatabase();
 
-app.use(express.json());
+
 
 
 async function createBook(book){
@@ -191,7 +201,7 @@ app.post("/books/:bookId", async (req, res)=>{
     }catch{
         res.status(500).json({error : "Failed to update"})
     }
-})
+}) 
 
 
 app.post("/books/title/:title", async (req, res)=>{
